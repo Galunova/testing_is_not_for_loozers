@@ -1,0 +1,933 @@
+  [1m[36m (96.6ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL) [0m
+  [1m[35m (0.3ms)[0m  select sqlite_version(*)
+  [1m[36m (96.8ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateProducts (20150817135504)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TABLE "products" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" text, "price" decimal, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150817135504"]]
+  [1m[35m (104.7ms)[0m  commit transaction
+Migrating to CreateCategories (20150820141656)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150820141656"]]
+  [1m[35m (93.4ms)[0m  commit transaction
+Migrating to AddCategoryToProducts (20150820145141)
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.3ms)[0m  ALTER TABLE "products" ADD "category_id" integer
+  [1m[36m (0.4ms)[0m  [1mCREATE  INDEX "index_products_on_category_id" ON "products" ("category_id")[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150820145141"]]
+  [1m[36m (101.1ms)[0m  [1mcommit transaction[0m
+Migrating to CreateUsers (20151021132811)
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36m (1.0ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151021132811"]]
+  [1m[36m (102.6ms)[0m  [1mcommit transaction[0m
+Migrating to AddDeviseToUsers (20151021133017)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (1.3ms)[0m  [1mALTER TABLE "users" ADD "email" varchar DEFAULT '' NOT NULL[0m
+  [1m[35m (0.7ms)[0m  ALTER TABLE "users" ADD "encrypted_password" varchar DEFAULT '' NOT NULL
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE "users" ADD "remember_created_at" datetime[0m
+  [1m[35m (1.0ms)[0m  ALTER TABLE "users" ADD "sign_in_count" integer DEFAULT 0 NOT NULL
+  [1m[36m (1.0ms)[0m  [1mALTER TABLE "users" ADD "current_sign_in_at" datetime[0m
+  [1m[35m (1.2ms)[0m  ALTER TABLE "users" ADD "last_sign_in_at" datetime
+  [1m[36m (0.7ms)[0m  [1mALTER TABLE "users" ADD "current_sign_in_ip" varchar[0m
+  [1m[35m (0.6ms)[0m  ALTER TABLE "users" ADD "last_sign_in_ip" varchar
+  [1m[36m (0.5ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151021133017"]]
+  [1m[36m (101.8ms)[0m  [1mcommit transaction[0m
+Migrating to AddAdminToUsers (20151021143359)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (1.2ms)[0m  [1mALTER TABLE "users" ADD "admin" boolean DEFAULT 'f'[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151021143359"]]
+  [1m[36m (68.5ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.4ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_products_on_category_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_products_on_category_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+
+
+
+Started GET "/" for 127.0.0.1 at 2017-10-13 20:25:12 +0600
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ProductsController#index as HTML
+  [1m[35mCategory Load (0.3ms)[0m  SELECT "categories".* FROM "categories"
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "products"[0m
+  [1m[35mProduct Load (0.2ms)[0m  SELECT  "products".* FROM "products" LIMIT 10 OFFSET 0
+  Rendered products/index.html.erb within layouts/application (27.3ms)
+  Rendered layouts/application/_navbar.html.erb (6.2ms)
+Completed 200 OK in 4105ms (Views: 4025.9ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/assets/application.self-99ce4acc8a0d20d746ce5ac0c8415c7740bfa82f652c6898bcd1f6e93c9c7e4f.css?body=1" for 127.0.0.1 at 2017-10-13 20:25:16 +0600
+
+
+Started GET "/assets/jquery.self-d03a5518f45df77341bdbe6201ba3bfa547ebba8ed64f0ea56bfa5f96ea7c074.js?body=1" for 127.0.0.1 at 2017-10-13 20:25:16 +0600
+
+
+Started GET "/assets/bootstrap.self-6c92f650931beefe48977f272b7015d6b9b45da8b09831ebf88e05193c12d355.js?body=1" for 127.0.0.1 at 2017-10-13 20:25:16 +0600
+
+
+Started GET "/assets/jquery_ujs.self-ca5248a2fad13d6bd58ea121318d642f195f0b2dd818b30615f785ff365e8d1f.js?body=1" for 127.0.0.1 at 2017-10-13 20:25:16 +0600
+
+
+Started GET "/assets/turbolinks.self-c37727e9bd6b2735da5c311aa83fead54ed0be6cc8bd9a65309e9c5abe2cbfff.js?body=1" for 127.0.0.1 at 2017-10-13 20:25:16 +0600
+
+
+Started GET "/assets/admin/categories.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2017-10-13 20:25:16 +0600
+
+
+Started GET "/assets/admin/products.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for 127.0.0.1 at 2017-10-13 20:25:16 +0600
+
+
+Started GET "/assets/application.self-f8806224e027f3e3f0138ea9ce99319e298dfdb323304d1f1be6eae8e8c74724.js?body=1" for 127.0.0.1 at 2017-10-13 20:25:16 +0600
+
+
+Started GET "/user/sign_in" for 127.0.0.1 at 2017-10-13 20:25:41 +0600
+
+ActionController::RoutingError (No route matches [GET] "/user/sign_in"):
+  actionpack (4.2.3) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.2.1) lib/web_console/middleware.rb:39:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.3) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.3) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.3) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.3) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/static.rb:116:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.3) lib/rails/engine.rb:518:in `call'
+  railties (4.2.3) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:140:in `service'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:96:in `run'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/server.rb:296:in `block in start_thread'
+
+
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.5ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/routes/_route.html.erb (5.4ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/routes/_table.html.erb (37.2ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.9ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (192.6ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (17.7ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.2ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (56.3ms)
+
+
+Started GET "/user/sing_in" for 127.0.0.1 at 2017-10-13 20:26:00 +0600
+
+ActionController::RoutingError (No route matches [GET] "/user/sing_in"):
+  actionpack (4.2.3) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.2.1) lib/web_console/middleware.rb:39:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.3) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.3) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.3) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.3) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/static.rb:116:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.3) lib/rails/engine.rb:518:in `call'
+  railties (4.2.3) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:140:in `service'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:96:in `run'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/server.rb:296:in `block in start_thread'
+
+
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.1ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/routes/_route.html.erb (1.6ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.0ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (21.6ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (13.2ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (26.9ms)
+
+
+Started GET "/user/sing_in" for 127.0.0.1 at 2017-10-13 20:26:06 +0600
+
+ActionController::RoutingError (No route matches [GET] "/user/sing_in"):
+  actionpack (4.2.3) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.2.1) lib/web_console/middleware.rb:39:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.3) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.3) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.3) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.3) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/static.rb:116:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.3) lib/rails/engine.rb:518:in `call'
+  railties (4.2.3) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:140:in `service'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:96:in `run'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/server.rb:296:in `block in start_thread'
+
+
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/routes/_route.html.erb (1.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.4ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (20.5ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.2ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (13.1ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (26.9ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2017-10-13 20:26:18 +0600
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (0.9ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (429.4ms)
+  Rendered layouts/application/_navbar.html.erb (0.4ms)
+Completed 200 OK in 477ms (Views: 468.5ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-10-16 18:50:20 +0600
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ProductsController#index as HTML
+  [1m[35mCategory Load (0.3ms)[0m  SELECT "categories".* FROM "categories"
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "products"[0m
+  [1m[35mProduct Load (0.2ms)[0m  SELECT  "products".* FROM "products" LIMIT 10 OFFSET 0
+  Rendered products/index.html.erb within layouts/application (28.1ms)
+  Rendered layouts/application/_navbar.html.erb (4.4ms)
+Completed 200 OK in 532ms (Views: 464.6ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2017-10-16 18:50:24 +0600
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (2.7ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (465.6ms)
+  Rendered layouts/application/_navbar.html.erb (0.4ms)
+Completed 200 OK in 567ms (Views: 532.3ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/users/sign_up" for 127.0.0.1 at 2017-10-16 18:50:27 +0600
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered shared/_field_errors.html.erb (0.4ms)
+  Rendered shared/_field_errors.html.erb (0.0ms)
+  Rendered shared/_field_errors.html.erb (0.0ms)
+  Rendered shared/_field_errors.html.erb (0.0ms)
+  Rendered devise/shared/_links.html.erb (0.4ms)
+  Rendered devise/registrations/new.html.erb within layouts/application (7.5ms)
+  Rendered layouts/application/_navbar.html.erb (0.4ms)
+Completed 200 OK in 57ms (Views: 44.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/" for 127.0.0.1 at 2017-10-16 18:55:07 +0600
+
+ActionController::RoutingError (No route matches [GET] "/users"):
+  actionpack (4.2.3) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.2.1) lib/web_console/middleware.rb:39:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.3) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.3) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.3) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.3) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/static.rb:116:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.3) lib/rails/engine.rb:518:in `call'
+  railties (4.2.3) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:140:in `service'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:96:in `run'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/server.rb:296:in `block in start_thread'
+
+
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/routes/_route.html.erb (4.6ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/routes/_table.html.erb (22.9ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.2ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (164.1ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (0.6ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (21.2ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (43.4ms)
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "users"[0m
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2017-10-16 19:36:01 +0600
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (0.2ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (3.6ms)
+  Rendered layouts/application/_navbar.html.erb (0.4ms)
+Completed 200 OK in 46ms (Views: 43.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_up" for 127.0.0.1 at 2017-10-16 19:36:02 +0600
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered shared/_field_errors.html.erb (0.1ms)
+  Rendered shared/_field_errors.html.erb (0.0ms)
+  Rendered shared/_field_errors.html.erb (0.0ms)
+  Rendered shared/_field_errors.html.erb (0.0ms)
+  Rendered devise/shared/_links.html.erb (0.2ms)
+  Rendered devise/registrations/new.html.erb within layouts/application (8.4ms)
+  Rendered layouts/application/_navbar.html.erb (0.4ms)
+Completed 200 OK in 51ms (Views: 49.0ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users" for 127.0.0.1 at 2017-10-16 19:36:25 +0600
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"1Cwb0D+/QNZTR49V8HyEQ14Aun3XIc+ONB8BoMt+swMgsFPJ99fCZa/Tn3UxJEPgQ4yHacxhBTJoQPSRR7Wfbw==", "user"=>{"name"=>"Boris", "email"=>"boris@example.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'boris@example.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "name", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["email", "boris@example.com"], ["encrypted_password", "$2a$10$TA9EgQWhifJWWrp3fT3I/u75susifeHgFZRfKBeodKwuz2KqD7lYy"], ["name", "Boris"], ["created_at", "2017-10-16 13:36:26.271699"], ["updated_at", "2017-10-16 13:36:26.271699"]]
+  [1m[35m (98.8ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.8ms)[0m  UPDATE "users" SET "last_sign_in_at" = ?, "current_sign_in_at" = ?, "last_sign_in_ip" = ?, "current_sign_in_ip" = ?, "sign_in_count" = ?, "updated_at" = ? WHERE "users"."id" = ?  [["last_sign_in_at", "2017-10-16 13:36:26.376978"], ["current_sign_in_at", "2017-10-16 13:36:26.376978"], ["last_sign_in_ip", "127.0.0.1"], ["current_sign_in_ip", "127.0.0.1"], ["sign_in_count", 1], ["updated_at", "2017-10-16 13:36:26.379977"], ["id", 1]]
+  [1m[36m (99.8ms)[0m  [1mcommit transaction[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 548ms (ActiveRecord: 200.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-10-16 19:36:26 +0600
+Processing by ProductsController#index as HTML
+  [1m[35mCategory Load (0.2ms)[0m  SELECT "categories".* FROM "categories"
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "products"[0m
+  [1m[35mProduct Load (0.1ms)[0m  SELECT  "products".* FROM "products" LIMIT 10 OFFSET 0
+  Rendered products/index.html.erb within layouts/application (1.9ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  Rendered layouts/application/_navbar.html.erb (1.4ms)
+Completed 200 OK in 43ms (Views: 40.8ms | ActiveRecord: 0.6ms)
+
+
+Started DELETE "/users/sign_out" for 127.0.0.1 at 2017-10-16 19:46:33 +0600
+Processing by Devise::SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"fQ5KBqSK2ukx3jmwQPgPdZOE3IfZC3fJSsdp9B755EaJkgIfbOJYWs1KKZCBoMjWjgjhk8JLvXUWmJzFkjLIKg=="}
+  [1m[35mUser Load (0.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  commit transaction
+Redirected to http://localhost:3000/
+Completed 302 Found in 58ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-10-16 19:46:33 +0600
+Processing by ProductsController#index as HTML
+  [1m[36mCategory Load (0.1ms)[0m  [1mSELECT "categories".* FROM "categories"[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "products"
+  [1m[36mProduct Load (0.1ms)[0m  [1mSELECT  "products".* FROM "products" LIMIT 10 OFFSET 0[0m
+  Rendered products/index.html.erb within layouts/application (1.3ms)
+  Rendered layouts/application/_navbar.html.erb (0.4ms)
+Completed 200 OK in 41ms (Views: 39.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/dishes" for 127.0.0.1 at 2017-10-16 20:19:34 +0600
+
+ActionController::RoutingError (No route matches [GET] "/dishes"):
+  actionpack (4.2.3) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.2.1) lib/web_console/middleware.rb:39:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.3) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.3) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.3) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.3) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.3) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.3) lib/action_dispatch/middleware/static.rb:116:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.3) lib/rails/engine.rb:518:in `call'
+  railties (4.2.3) lib/rails/application.rb:165:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:140:in `service'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/httpserver.rb:96:in `run'
+  /usr/share/rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/webrick/server.rb:296:in `block in start_thread'
+
+
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/routes/_route.html.erb (1.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.0ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.4ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/actionpack-4.2.3/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (21.4ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (13.5ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.2ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /home/delya/.rvm/gems/ruby-2.3.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (26.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-10-16 20:19:40 +0600
+Processing by ProductsController#index as HTML
+  [1m[35mCategory Load (0.1ms)[0m  SELECT "categories".* FROM "categories"
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "products"[0m
+  [1m[35mProduct Load (0.1ms)[0m  SELECT  "products".* FROM "products" LIMIT 10 OFFSET 0
+  Rendered products/index.html.erb within layouts/application (1.3ms)
+  Rendered layouts/application/_navbar.html.erb (0.4ms)
+Completed 200 OK in 39ms (Views: 37.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/users/sign_up" for 127.0.0.1 at 2017-10-16 20:19:43 +0600
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered shared/_field_errors.html.erb (0.0ms)
+  Rendered shared/_field_errors.html.erb (0.1ms)
+  Rendered shared/_field_errors.html.erb (0.0ms)
+  Rendered shared/_field_errors.html.erb (0.0ms)
+  Rendered devise/shared/_links.html.erb (0.2ms)
+  Rendered devise/registrations/new.html.erb within layouts/application (5.9ms)
+  Rendered layouts/application/_navbar.html.erb (0.3ms)
+Completed 200 OK in 41ms (Views: 40.0ms | ActiveRecord: 0.0ms)
+  [1m[36m (123.6ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL) [0m
+  [1m[35m (0.3ms)[0m  select sqlite_version(*)
+  [1m[36m (112.5ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateProducts (20150817135504)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  CREATE TABLE "products" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" text, "price" decimal, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150817135504"]]
+  [1m[35m (111.9ms)[0m  commit transaction
+Migrating to CreateCategories (20150820141656)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150820141656"]]
+  [1m[35m (134.5ms)[0m  commit transaction
+Migrating to AddCategoryToProducts (20150820145141)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  ALTER TABLE "products" ADD "category_id" integer
+  [1m[36m (0.6ms)[0m  [1mCREATE  INDEX "index_products_on_category_id" ON "products" ("category_id")[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150820145141"]]
+  [1m[36m (136.9ms)[0m  [1mcommit transaction[0m
+Migrating to CreateUsers (20151021132811)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.8ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151021132811"]]
+  [1m[36m (104.9ms)[0m  [1mcommit transaction[0m
+Migrating to AddDeviseToUsers (20151021133017)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.9ms)[0m  [1mALTER TABLE "users" ADD "email" varchar DEFAULT '' NOT NULL[0m
+  [1m[35m (1.4ms)[0m  ALTER TABLE "users" ADD "encrypted_password" varchar DEFAULT '' NOT NULL
+  [1m[36m (0.7ms)[0m  [1mALTER TABLE "users" ADD "remember_created_at" datetime[0m
+  [1m[35m (0.6ms)[0m  ALTER TABLE "users" ADD "sign_in_count" integer DEFAULT 0 NOT NULL
+  [1m[36m (0.5ms)[0m  [1mALTER TABLE "users" ADD "current_sign_in_at" datetime[0m
+  [1m[35m (0.6ms)[0m  ALTER TABLE "users" ADD "last_sign_in_at" datetime
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE "users" ADD "current_sign_in_ip" varchar[0m
+  [1m[35m (2.8ms)[0m  ALTER TABLE "users" ADD "last_sign_in_ip" varchar
+  [1m[36m (0.7ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151021133017"]]
+  [1m[36m (126.5ms)[0m  [1mcommit transaction[0m
+Migrating to AddAdminToUsers (20151021143359)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (1.0ms)[0m  [1mALTER TABLE "users" ADD "admin" boolean DEFAULT 'f'[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151021143359"]]
+  [1m[36m (85.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.5ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_products_on_category_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_products_on_category_id' AND type='index'
+[0m
+  [1m[35m (0.3ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "CPUs"], ["created_at", "2017-10-25 13:02:00.916767"], ["updated_at", "2017-10-25 13:02:00.916767"]]
+  [1m[35m (102.4ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Motherboards"], ["created_at", "2017-10-25 13:02:01.023462"], ["updated_at", "2017-10-25 13:02:01.023462"]]
+  [1m[36m (84.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "RAM"], ["created_at", "2017-10-25 13:02:01.110862"], ["updated_at", "2017-10-25 13:02:01.110862"]]
+  [1m[35m (98.1ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "HDDs"], ["created_at", "2017-10-25 13:02:01.211630"], ["updated_at", "2017-10-25 13:02:01.211630"]]
+  [1m[36m (84.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Fixtures"], ["created_at", "2017-10-25 13:02:01.300354"], ["updated_at", "2017-10-25 13:02:01.300354"]]
+  [1m[35m (84.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Intel Core i7"], ["price", 300.0], ["description", "Sunt autem dolor quo provident velit et. Cupiditate aliquid eos velit. Veniam soluta rerum. Omnis aut deleniti aliquid ullam."], ["category_id", 1], ["created_at", "2017-10-25 13:02:01.637124"], ["updated_at", "2017-10-25 13:02:01.637124"]]
+  [1m[36m (81.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "4GB DDR3 RAM"], ["price", 40.0], ["description", "Aut numquam provident hic qui rerum laudantium. Porro est sapiente fuga voluptas. Recusandae dolor odit consequatur voluptate ut ipsa ipsam. Voluptas cum corrupti voluptates."], ["category_id", 3], ["created_at", "2017-10-25 13:02:01.723603"], ["updated_at", "2017-10-25 13:02:01.723603"]]
+  [1m[35m (90.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "1TB Seagate HDD"], ["price", 60.0], ["description", "Et est est repudiandae fuga reiciendis ab ut. Eos quisquam aut et veritatis et quam. Sequi illo et et quas esse quod. Non qui culpa dignissimos eum at."], ["category_id", 4], ["created_at", "2017-10-25 13:02:01.821067"], ["updated_at", "2017-10-25 13:02:01.821067"]]
+  [1m[36m (72.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Asus P5Q3"], ["price", 120.0], ["description", "Fuga rerum id. Non ratione accusantium ut praesentium voluptatibus voluptatum. Enim commodi eius fuga quod perferendis voluptatum velit. Quasi deleniti soluta necessitatibus harum velit. Est omnis recusandae occaecati."], ["category_id", 2], ["created_at", "2017-10-25 13:02:01.898774"], ["updated_at", "2017-10-25 13:02:01.898774"]]
+  [1m[35m (84.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Heavy Duty Concrete Bench"], ["price", 42.98], ["description", "In ut odit. Est quod ut. Autem et consectetur rem animi."], ["category_id", 5], ["created_at", "2017-10-25 13:02:01.989906"], ["updated_at", "2017-10-25 13:02:01.989906"]]
+  [1m[36m (128.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Aerodynamic Granite Keyboard"], ["price", 17.38], ["description", "Molestiae vel explicabo minus laudantium doloremque et quia. Ex amet sed aut pariatur. Culpa ut sint quis accusamus ducimus non."], ["category_id", 5], ["created_at", "2017-10-25 13:02:02.123129"], ["updated_at", "2017-10-25 13:02:02.123129"]]
+  [1m[35m (92.9ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Rustic Wooden Wallet"], ["price", 93.76], ["description", "Perferendis illum laborum libero debitis cum. Quam enim quod deleniti. Modi maiores minus."], ["category_id", 5], ["created_at", "2017-10-25 13:02:02.220847"], ["updated_at", "2017-10-25 13:02:02.220847"]]
+  [1m[36m (81.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Durable Rubber Gloves"], ["price", 78.02], ["description", "Maiores dicta sed animi aliquam. Atque omnis non sed qui. Deserunt accusamus et corrupti voluptatem."], ["category_id", 5], ["created_at", "2017-10-25 13:02:02.309259"], ["updated_at", "2017-10-25 13:02:02.309259"]]
+  [1m[35m (71.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Synergistic Plastic Watch"], ["price", 56.44], ["description", "Ea facilis sunt. Et cum earum. Qui dignissimos sunt deserunt quia atque asperiores error. Consequatur delectus sint."], ["category_id", 5], ["created_at", "2017-10-25 13:02:02.386648"], ["updated_at", "2017-10-25 13:02:02.386648"]]
+  [1m[36m (94.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Intelligent Bronze Shirt"], ["price", 37.18], ["description", "Deleniti cumque eveniet sint beatae accusamus nam. Fuga debitis commodi dolorum optio et. Accusantium aut quis modi beatae. Ut ipsa magnam. Rerum nulla et veniam repellat."], ["category_id", 5], ["created_at", "2017-10-25 13:02:02.487224"], ["updated_at", "2017-10-25 13:02:02.487224"]]
+  [1m[35m (87.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Rustic Aluminum Pants"], ["price", 91.94], ["description", "Sint debitis in eaque voluptatem impedit. Expedita aut voluptatum molestias ipsa temporibus. Ut qui labore sequi quaerat qui commodi. Sed labore magni dolor fuga. Dolores possimus et labore consequatur dolores nostrum consectetur."], ["category_id", 5], ["created_at", "2017-10-25 13:02:02.582323"], ["updated_at", "2017-10-25 13:02:02.582323"]]
+  [1m[36m (73.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Durable Granite Gloves"], ["price", 99.12], ["description", "Omnis harum dolore eum iure nesciunt rerum. Unde voluptas excepturi doloribus. Ullam voluptatem at dicta. Quod atque quia est."], ["category_id", 5], ["created_at", "2017-10-25 13:02:02.662510"], ["updated_at", "2017-10-25 13:02:02.662510"]]
+  [1m[35m (84.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Lightweight Steel Coat"], ["price", 38.12], ["description", "Totam ipsum molestias sit accusamus non. Provident fugit iusto assumenda dignissimos ut. In aut ut recusandae."], ["category_id", 5], ["created_at", "2017-10-25 13:02:02.752312"], ["updated_at", "2017-10-25 13:02:02.752312"]]
+  [1m[36m (91.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Ergonomic Silk Wallet"], ["price", 1.47], ["description", "Recusandae ex dolor sapiente quia tenetur. Ut sit reprehenderit magnam non quis possimus blanditiis. Minima numquam magni sed sed reprehenderit qui doloremque."], ["category_id", 5], ["created_at", "2017-10-25 13:02:02.849819"], ["updated_at", "2017-10-25 13:02:02.849819"]]
+  [1m[35m (71.4ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Intelligent Paper Shoes"], ["price", 55.44], ["description", "Eos dicta nemo repellat corrupti id. Ut sunt harum soluta. Cum tenetur in voluptate reprehenderit vel aut omnis. Consequatur reprehenderit eum omnis voluptatem. Perferendis laboriosam voluptate dolore qui ullam vel."], ["category_id", 5], ["created_at", "2017-10-25 13:02:02.926975"], ["updated_at", "2017-10-25 13:02:02.926975"]]
+  [1m[36m (93.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Enormous Concrete Chair"], ["price", 42.03], ["description", "Atque voluptas reprehenderit deleniti. Quis ratione quisquam. Voluptatem aliquid unde perferendis excepturi impedit libero sint."], ["category_id", 5], ["created_at", "2017-10-25 13:02:03.027164"], ["updated_at", "2017-10-25 13:02:03.027164"]]
+  [1m[35m (70.0ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Small Rubber Hat"], ["price", 82.11], ["description", "Nisi ad voluptatem eum. Voluptas reiciendis fuga est eos. Rerum quia animi distinctio ut expedita. Dolor vero omnis. Excepturi deleniti praesentium sit et quibusdam aut fugit."], ["category_id", 5], ["created_at", "2017-10-25 13:02:03.104169"], ["updated_at", "2017-10-25 13:02:03.104169"]]
+  [1m[36m (107.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Mediocre Linen Clock"], ["price", 0.71], ["description", "Distinctio est dolor voluptatum laudantium libero. Aspernatur quidem nisi numquam et sit. Nemo ipsa eligendi cupiditate. Repudiandae in magni consequatur deserunt non reiciendis. Velit sunt nulla ea occaecati temporibus non."], ["category_id", 5], ["created_at", "2017-10-25 13:02:03.218510"], ["updated_at", "2017-10-25 13:02:03.218510"]]
+  [1m[35m (80.3ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Durable Copper Keyboard"], ["price", 84.13], ["description", "Vel soluta voluptas enim ullam enim sed. Nihil cumque incidunt. Ipsam quod aut mollitia qui reiciendis. Nihil nobis perferendis qui quam velit eligendi."], ["category_id", 5], ["created_at", "2017-10-25 13:02:03.306248"], ["updated_at", "2017-10-25 13:02:03.306248"]]
+  [1m[36m (90.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Durable Marble Bottle"], ["price", 98.45], ["description", "Laudantium est error velit nobis. Sequi qui impedit sapiente at debitis magni. Error explicabo amet."], ["category_id", 5], ["created_at", "2017-10-25 13:02:03.403165"], ["updated_at", "2017-10-25 13:02:03.403165"]]
+  [1m[35m (97.9ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Sleek Concrete Keyboard"], ["price", 2.73], ["description", "Non nihil totam sint nostrum perspiciatis ipsa. Optio laboriosam veniam dignissimos tempore autem ad. Sed pariatur harum odit dolores assumenda. Iure occaecati quia enim qui vitae doloribus id. Rerum consequatur magni sit et tempore placeat voluptatem."], ["category_id", 5], ["created_at", "2017-10-25 13:02:03.508535"], ["updated_at", "2017-10-25 13:02:03.508535"]]
+  [1m[36m (87.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Gorgeous Bronze Shoes"], ["price", 4.49], ["description", "Autem assumenda aut exercitationem hic praesentium amet quam. Quasi ea modi eligendi qui qui odio. Cumque in aut quaerat ut voluptatum ut. Veniam dolore doloremque pariatur qui sunt et amet. Ipsam perferendis neque eveniet est voluptatem omnis inventore."], ["category_id", 5], ["created_at", "2017-10-25 13:02:03.603669"], ["updated_at", "2017-10-25 13:02:03.603669"]]
+  [1m[35m (80.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Fantastic Plastic Wallet"], ["price", 25.81], ["description", "Quibusdam quasi deserunt. Eos dolorem incidunt aut. Nam voluptatem voluptatem temporibus reprehenderit pariatur. Dolor velit fugiat nesciunt dolorem eos sit."], ["category_id", 5], ["created_at", "2017-10-25 13:02:03.690762"], ["updated_at", "2017-10-25 13:02:03.690762"]]
+  [1m[36m (122.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Heavy Duty Iron Keyboard"], ["price", 93.88], ["description", "Assumenda aut omnis distinctio saepe temporibus necessitatibus. Quibusdam doloribus ullam ut labore sapiente quo. Voluptas minima pariatur omnis officiis et et quam."], ["category_id", 5], ["created_at", "2017-10-25 13:02:03.819685"], ["updated_at", "2017-10-25 13:02:03.819685"]]
+  [1m[35m (107.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Intelligent Leather Table"], ["price", 91.78], ["description", "Autem natus nihil et odio sed. Consectetur placeat non. Eligendi consequatur dicta cum rerum necessitatibus pariatur et. Molestiae est explicabo. Possimus eius labore vel necessitatibus dicta quas ut."], ["category_id", 5], ["created_at", "2017-10-25 13:02:03.935284"], ["updated_at", "2017-10-25 13:02:03.935284"]]
+  [1m[36m (70.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Practical Marble Coat"], ["price", 64.22], ["description", "Voluptas vero laboriosam quasi explicabo possimus. Minima voluptas illo ut laboriosam corrupti doloremque laudantium. Perspiciatis dolore nesciunt velit sed nisi voluptates."], ["category_id", 5], ["created_at", "2017-10-25 13:02:04.012939"], ["updated_at", "2017-10-25 13:02:04.012939"]]
+  [1m[35m (99.7ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Enormous Iron Bench"], ["price", 81.47], ["description", "Aspernatur deserunt magni. Dolorum nostrum aut et nihil earum. Iusto molestias accusantium corrupti incidunt ea culpa deleniti. Commodi id magnam. Maxime doloremque voluptatum rerum et dolor."], ["category_id", 5], ["created_at", "2017-10-25 13:02:04.119049"], ["updated_at", "2017-10-25 13:02:04.119049"]]
+  [1m[36m (75.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Awesome Paper Pants"], ["price", 3.21], ["description", "Ipsa ad ea ipsam nihil dolores. Quia modi sapiente laboriosam. Sit qui tenetur illum facilis."], ["category_id", 5], ["created_at", "2017-10-25 13:02:04.201850"], ["updated_at", "2017-10-25 13:02:04.201850"]]
+  [1m[35m (101.9ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Awesome Plastic Shoes"], ["price", 99.16], ["description", "Dolores itaque tempora. Omnis nulla quam. Velit ut impedit."], ["category_id", 5], ["created_at", "2017-10-25 13:02:04.312049"], ["updated_at", "2017-10-25 13:02:04.312049"]]
+  [1m[36m (136.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Aerodynamic Paper Keyboard"], ["price", 31.3], ["description", "Suscipit voluptatem quas dolor nemo minus in. Ipsam voluptatem aut eum culpa. Praesentium nostrum iure ab inventore ea voluptas et. Qui vero est est accusantium autem sequi. Illum dolores perspiciatis culpa qui sapiente aut."], ["category_id", 5], ["created_at", "2017-10-25 13:02:04.456141"], ["updated_at", "2017-10-25 13:02:04.456141"]]
+  [1m[35m (124.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (1.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Lightweight Cotton Watch"], ["price", 45.84], ["description", "Eius perferendis in ut sed qui inventore magnam. Omnis minima consectetur rerum dignissimos rerum. Consequatur enim non exercitationem tempore."], ["category_id", 5], ["created_at", "2017-10-25 13:02:04.589584"], ["updated_at", "2017-10-25 13:02:04.589584"]]
+  [1m[36m (78.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Synergistic Leather Pants"], ["price", 73.81], ["description", "Nihil voluptatum aut atque eaque velit in. Commodi consectetur enim quis ea deserunt odio quia. Velit qui reprehenderit provident."], ["category_id", 5], ["created_at", "2017-10-25 13:02:04.676519"], ["updated_at", "2017-10-25 13:02:04.676519"]]
+  [1m[35m (92.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Durable Bronze Clock"], ["price", 28.8], ["description", "Aperiam ab et ipsum atque ea odio culpa. Aliquam dolor distinctio nobis ab impedit vitae. Non officiis sunt magnam aut dolores. Enim iure perspiciatis. Facere amet ratione et ea sint."], ["category_id", 5], ["created_at", "2017-10-25 13:02:04.777990"], ["updated_at", "2017-10-25 13:02:04.777990"]]
+  [1m[36m (92.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Incredible Steel Knife"], ["price", 20.87], ["description", "Hic tenetur perferendis blanditiis id architecto non. Excepturi quia labore ea esse et. Aut est et ipsam ut. Inventore omnis non possimus. Temporibus unde et quia officiis."], ["category_id", 5], ["created_at", "2017-10-25 13:02:04.877558"], ["updated_at", "2017-10-25 13:02:04.877558"]]
+  [1m[35m (80.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Gorgeous Paper Bottle"], ["price", 84.58], ["description", "Quia nemo et omnis totam rerum id dolores. Sequi corrupti ducimus. Quod sint sapiente voluptatem quidem voluptatem tempora enim. Consequuntur earum beatae sapiente."], ["category_id", 5], ["created_at", "2017-10-25 13:02:04.965606"], ["updated_at", "2017-10-25 13:02:04.965606"]]
+  [1m[36m (102.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Heavy Duty Marble Watch"], ["price", 26.42], ["description", "Ab debitis amet atque quisquam voluptas aliquam. Sed et veritatis. Ducimus et pariatur quod molestias ea soluta. Soluta voluptates ea similique ut veritatis."], ["category_id", 5], ["created_at", "2017-10-25 13:02:05.077952"], ["updated_at", "2017-10-25 13:02:05.077952"]]
+  [1m[35m (91.8ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Gorgeous Bronze Lamp"], ["price", 67.37], ["description", "Explicabo quia autem vel. Sint natus error neque quasi possimus praesentium. Delectus unde error incidunt labore veniam quia. Animi eos voluptate qui omnis libero quidem reprehenderit."], ["category_id", 5], ["created_at", "2017-10-25 13:02:05.178949"], ["updated_at", "2017-10-25 13:02:05.178949"]]
+  [1m[36m (89.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Rustic Cotton Hat"], ["price", 16.32], ["description", "Officiis est reiciendis. Sequi molestiae deleniti laudantium. Id delectus molestiae. Quae voluptatem voluptas magni ratione sunt est vero. Suscipit voluptatem sit recusandae necessitatibus nostrum beatae ipsum."], ["category_id", 5], ["created_at", "2017-10-25 13:02:05.276094"], ["updated_at", "2017-10-25 13:02:05.276094"]]
+  [1m[35m (67.7ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Aerodynamic Linen Shirt"], ["price", 95.17], ["description", "Qui enim ut rerum ipsam voluptatibus. Itaque autem amet. Eius error dolorum nam. Facere odit provident ut asperiores enim. Rerum quis necessitatibus."], ["category_id", 5], ["created_at", "2017-10-25 13:02:05.352270"], ["updated_at", "2017-10-25 13:02:05.352270"]]
+  [1m[36m (97.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Mediocre Cotton Knife"], ["price", 5.66], ["description", "Doloremque asperiores nisi et sed soluta commodi. Ipsam similique qui tenetur. Quidem autem et tempora mollitia."], ["category_id", 5], ["created_at", "2017-10-25 13:02:05.457752"], ["updated_at", "2017-10-25 13:02:05.457752"]]
+  [1m[35m (86.3ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Gorgeous Paper Pants"], ["price", 28.69], ["description", "Nostrum eligendi facere ut et. Dolores et accusamus quae. Atque corporis adipisci maiores consectetur explicabo. Autem aliquid quis minus in est quisquam dolores. Magnam et error."], ["category_id", 5], ["created_at", "2017-10-25 13:02:05.552818"], ["updated_at", "2017-10-25 13:02:05.552818"]]
+  [1m[36m (66.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Synergistic Copper Pants"], ["price", 49.51], ["description", "Minima asperiores dolor autem quam odio. Voluptatem qui nihil excepturi magnam. Saepe hic quidem vel tempora."], ["category_id", 5], ["created_at", "2017-10-25 13:02:05.628164"], ["updated_at", "2017-10-25 13:02:05.628164"]]
+  [1m[35m (94.2ms)[0m  commit transaction
+  [1m[36m (0.5ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Aerodynamic Wooden Coat"], ["price", 79.61], ["description", "Sit iure repellendus dolorum. Dolores commodi nam velit. Temporibus enim quis."], ["category_id", 5], ["created_at", "2017-10-25 13:02:05.729720"], ["updated_at", "2017-10-25 13:02:05.729720"]]
+  [1m[36m (108.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Ergonomic Wooden Wallet"], ["price", 53.91], ["description", "Sequi dolorum voluptas facere sit. Deserunt molestiae eos adipisci reiciendis qui totam pariatur. Vel quidem quo voluptatem eius animi. Dicta earum ab dignissimos dolor expedita id et. Assumenda ab error totam sint."], ["category_id", 5], ["created_at", "2017-10-25 13:02:05.847820"], ["updated_at", "2017-10-25 13:02:05.847820"]]
+  [1m[35m (83.2ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Lightweight Aluminum Chair"], ["price", 32.13], ["description", "Aspernatur voluptatibus repellat dolor incidunt quis. Sint cumque cupiditate accusantium. Repellendus vel iure. Possimus magni quae. Tenetur et facilis ipsam est aperiam repellendus."], ["category_id", 5], ["created_at", "2017-10-25 13:02:05.939232"], ["updated_at", "2017-10-25 13:02:05.939232"]]
+  [1m[36m (81.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Gorgeous Aluminum Hat"], ["price", 51.83], ["description", "Assumenda ratione natus voluptatem. Nobis eveniet ut. Et impedit ut dolor inventore. Quia labore ab veniam reiciendis sint. Libero voluptatem suscipit necessitatibus."], ["category_id", 5], ["created_at", "2017-10-25 13:02:06.028537"], ["updated_at", "2017-10-25 13:02:06.028537"]]
+  [1m[35m (110.7ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Small Wool Bench"], ["price", 51.84], ["description", "Et non minus est. Nesciunt facere aliquid quaerat. Impedit animi laboriosam dolore voluptate ut rem dolorum."], ["category_id", 5], ["created_at", "2017-10-25 13:02:06.146850"], ["updated_at", "2017-10-25 13:02:06.146850"]]
+  [1m[36m (84.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Incredible Linen Keyboard"], ["price", 98.11], ["description", "Non nulla quia id. Ex eos dolor amet quo praesentium nisi. Tempora est itaque sunt sed."], ["category_id", 5], ["created_at", "2017-10-25 13:02:06.238828"], ["updated_at", "2017-10-25 13:02:06.238828"]]
+  [1m[35m (90.9ms)[0m  commit transaction
+  [1m[36m (0.4ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Gorgeous Leather Keyboard"], ["price", 94.86], ["description", "Minus omnis quasi facere ex. Vero ipsum earum officia cum quis. Aspernatur voluptatem occaecati voluptas."], ["category_id", 5], ["created_at", "2017-10-25 13:02:06.338936"], ["updated_at", "2017-10-25 13:02:06.338936"]]
+  [1m[36m (66.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Small Paper Knife"], ["price", 76.18], ["description", "Provident repellendus esse eos nesciunt. Saepe neque ullam aliquam tempore doloribus. Quia ullam animi. Id et eos."], ["category_id", 5], ["created_at", "2017-10-25 13:02:06.414873"], ["updated_at", "2017-10-25 13:02:06.414873"]]
+  [1m[35m (94.2ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Durable Wool Shoes"], ["price", 21.22], ["description", "Molestias illum ipsam. Et nulla reprehenderit ipsum omnis ut inventore ut. Velit quia exercitationem et non laboriosam."], ["category_id", 5], ["created_at", "2017-10-25 13:02:06.517839"], ["updated_at", "2017-10-25 13:02:06.517839"]]
+  [1m[36m (77.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Incredible Paper Hat"], ["price", 8.63], ["description", "Non quasi quia. Alias adipisci dolorem quia. Et rerum labore aut."], ["category_id", 5], ["created_at", "2017-10-25 13:02:06.603818"], ["updated_at", "2017-10-25 13:02:06.603818"]]
+  [1m[35m (91.4ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Gorgeous Granite Knife"], ["price", 33.44], ["description", "Ut ducimus quis occaecati. Est aspernatur reprehenderit quo id veniam consequatur error. Dolores corrupti in."], ["category_id", 5], ["created_at", "2017-10-25 13:02:06.703088"], ["updated_at", "2017-10-25 13:02:06.703088"]]
+  [1m[36m (81.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Incredible Paper Car"], ["price", 77.26], ["description", "Id perferendis et ipsam eum optio. Non voluptatem possimus accusantium. Similique commodi quae quibusdam ad necessitatibus autem aliquam."], ["category_id", 5], ["created_at", "2017-10-25 13:02:06.792965"], ["updated_at", "2017-10-25 13:02:06.792965"]]
+  [1m[35m (79.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'johndoe@example.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["name", "John Doe"], ["email", "johndoe@example.com"], ["encrypted_password", "$2a$10$U1gYB/A7C8LE/NJ/IpdSte9R4.p12IuZuH2p.u4dakHXcXr.ix/6a"], ["created_at", "2017-10-25 13:02:06.988006"], ["updated_at", "2017-10-25 13:02:06.988006"]]
+  [1m[35m (86.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'admin@example.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "encrypted_password", "admin", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Admin"], ["email", "admin@example.com"], ["encrypted_password", "$2a$10$sHUHxpfcAdcoBMfZx6Wj7.zPABCtqCLYEnQ6Mo.BF.P9PvZDfL62G"], ["admin", "t"], ["created_at", "2017-10-25 13:02:07.172683"], ["updated_at", "2017-10-25 13:02:07.172683"]]
+  [1m[35m (78.9ms)[0m  commit transaction
+  [1m[36m (87.0ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL) [0m
+  [1m[35m (0.3ms)[0m  select sqlite_version(*)
+  [1m[36m (120.9ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateProducts (20150817135504)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  CREATE TABLE "products" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" text, "price" decimal, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150817135504"]]
+  [1m[35m (125.9ms)[0m  commit transaction
+Migrating to CreateCategories (20150820141656)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  CREATE TABLE "categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150820141656"]]
+  [1m[35m (95.1ms)[0m  commit transaction
+Migrating to AddCategoryToProducts (20150820145141)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  ALTER TABLE "products" ADD "category_id" integer
+  [1m[36m (0.3ms)[0m  [1mCREATE  INDEX "index_products_on_category_id" ON "products" ("category_id")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150820145141"]]
+  [1m[36m (94.1ms)[0m  [1mcommit transaction[0m
+Migrating to CreateUsers (20151021132811)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.5ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151021132811"]]
+  [1m[36m (107.0ms)[0m  [1mcommit transaction[0m
+Migrating to AddDeviseToUsers (20151021133017)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.8ms)[0m  [1mALTER TABLE "users" ADD "email" varchar DEFAULT '' NOT NULL[0m
+  [1m[35m (0.5ms)[0m  ALTER TABLE "users" ADD "encrypted_password" varchar DEFAULT '' NOT NULL
+  [1m[36m (0.4ms)[0m  [1mALTER TABLE "users" ADD "remember_created_at" datetime[0m
+  [1m[35m (0.5ms)[0m  ALTER TABLE "users" ADD "sign_in_count" integer DEFAULT 0 NOT NULL
+  [1m[36m (0.4ms)[0m  [1mALTER TABLE "users" ADD "current_sign_in_at" datetime[0m
+  [1m[35m (0.4ms)[0m  ALTER TABLE "users" ADD "last_sign_in_at" datetime
+  [1m[36m (0.4ms)[0m  [1mALTER TABLE "users" ADD "current_sign_in_ip" varchar[0m
+  [1m[35m (0.4ms)[0m  ALTER TABLE "users" ADD "last_sign_in_ip" varchar
+  [1m[36m (0.5ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151021133017"]]
+  [1m[36m (120.7ms)[0m  [1mcommit transaction[0m
+Migrating to AddAdminToUsers (20151021143359)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.7ms)[0m  [1mALTER TABLE "users" ADD "admin" boolean DEFAULT 'f'[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151021143359"]]
+  [1m[36m (88.1ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.4ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_products_on_category_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_products_on_category_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "CPUs"], ["created_at", "2017-10-25 13:15:48.139173"], ["updated_at", "2017-10-25 13:15:48.139173"]]
+  [1m[35m (73.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "Motherboards"], ["created_at", "2017-10-25 13:15:48.217083"], ["updated_at", "2017-10-25 13:15:48.217083"]]
+  [1m[36m (85.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "RAM"], ["created_at", "2017-10-25 13:15:48.306302"], ["updated_at", "2017-10-25 13:15:48.306302"]]
+  [1m[35m (62.0ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)  [["name", "HDDs"], ["created_at", "2017-10-25 13:15:48.372117"], ["updated_at", "2017-10-25 13:15:48.372117"]]
+  [1m[36m (85.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "Fixtures"], ["created_at", "2017-10-25 13:15:48.460661"], ["updated_at", "2017-10-25 13:15:48.460661"]]
+  [1m[35m (74.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Intel Core i7"], ["price", 300.0], ["description", "Reprehenderit eius et omnis porro aspernatur. Asperiores sed ut sunt ipsa incidunt cupiditate. Necessitatibus ducimus ut officia a. Error maiores et."], ["category_id", 1], ["created_at", "2017-10-25 13:15:48.785337"], ["updated_at", "2017-10-25 13:15:48.785337"]]
+  [1m[36m (82.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "4GB DDR3 RAM"], ["price", 40.0], ["description", "Facere pariatur ut. Consequatur dicta non similique odit. Ratione vel autem. Odit assumenda nihil illum deserunt. Voluptatem earum dignissimos."], ["category_id", 3], ["created_at", "2017-10-25 13:15:48.872321"], ["updated_at", "2017-10-25 13:15:48.872321"]]
+  [1m[35m (94.2ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "1TB Seagate HDD"], ["price", 60.0], ["description", "Possimus aliquid velit aliquam. Doloremque occaecati sapiente et modi quis qui dolor. Beatae alias doloremque mollitia."], ["category_id", 4], ["created_at", "2017-10-25 13:15:48.972315"], ["updated_at", "2017-10-25 13:15:48.972315"]]
+  [1m[36m (71.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Asus P5Q3"], ["price", 120.0], ["description", "Ipsam aut nostrum atque. Blanditiis architecto possimus et similique et fugit earum. Architecto quo labore et et saepe corrupti voluptatem. Praesentium est minus."], ["category_id", 2], ["created_at", "2017-10-25 13:15:49.050240"], ["updated_at", "2017-10-25 13:15:49.050240"]]
+  [1m[35m (70.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Lightweight Cotton Bottle"], ["price", 19.38], ["description", "Voluptas et voluptatem sed corrupti ea sit. Sed molestiae ducimus explicabo. Ut deleniti ducimus sit ut recusandae sequi. Tenetur aliquam odit iusto aut a nobis. Soluta et maxime."], ["category_id", 5], ["created_at", "2017-10-25 13:15:49.127422"], ["updated_at", "2017-10-25 13:15:49.127422"]]
+  [1m[36m (161.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Lightweight Concrete Table"], ["price", 62.68], ["description", "Ea dolores esse doloremque similique. Qui voluptatem sit vitae cupiditate cum beatae. Similique harum voluptates impedit exercitationem aperiam. Maxime doloribus ut eum."], ["category_id", 5], ["created_at", "2017-10-25 13:15:49.294020"], ["updated_at", "2017-10-25 13:15:49.294020"]]
+  [1m[35m (94.2ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Intelligent Iron Computer"], ["price", 23.11], ["description", "Et quidem architecto cum. Sed occaecati voluptatem magni nisi iure dolorem quia. Sed corrupti et."], ["category_id", 5], ["created_at", "2017-10-25 13:15:49.393819"], ["updated_at", "2017-10-25 13:15:49.393819"]]
+  [1m[36m (83.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Sleek Plastic Knife"], ["price", 11.75], ["description", "Voluptate earum harum. Ut doloremque exercitationem error. Non enim assumenda id. Dolorum sint placeat velit cumque autem occaecati. Corrupti dolor rem aliquam voluptate quasi molestiae autem."], ["category_id", 5], ["created_at", "2017-10-25 13:15:49.482752"], ["updated_at", "2017-10-25 13:15:49.482752"]]
+  [1m[35m (161.5ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Sleek Paper Pants"], ["price", 43.1], ["description", "Neque cum corrupti. Quibusdam qui sit asperiores ad. Officia doloremque cupiditate est temporibus dolor et itaque. Ab voluptas molestiae facere."], ["category_id", 5], ["created_at", "2017-10-25 13:15:49.650450"], ["updated_at", "2017-10-25 13:15:49.650450"]]
+  [1m[36m (81.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Durable Paper Coat"], ["price", 28.48], ["description", "Quod id cum excepturi iste. Earum libero molestias non nam et. Sed sapiente eum incidunt molestiae aperiam. Voluptas cum omnis asperiores qui atque provident sunt. Nostrum voluptatem tempore id placeat officia excepturi ut."], ["category_id", 5], ["created_at", "2017-10-25 13:15:49.738351"], ["updated_at", "2017-10-25 13:15:49.738351"]]
+  [1m[35m (92.1ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Aerodynamic Marble Car"], ["price", 78.45], ["description", "Quis exercitationem commodi omnis sed officiis. Aliquam ullam aut. Qui aut corrupti aut repudiandae a est accusantium. Ea animi numquam culpa itaque sit."], ["category_id", 5], ["created_at", "2017-10-25 13:15:49.837599"], ["updated_at", "2017-10-25 13:15:49.837599"]]
+  [1m[36m (95.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Lightweight Wool Plate"], ["price", 11.36], ["description", "Vel et esse deserunt aut et aut soluta. Magnam officia magni doloribus. Magnam ab doloremque quia quaerat aut. Ut delectus dicta soluta quam dignissimos nulla vitae. Maiores debitis quisquam."], ["category_id", 5], ["created_at", "2017-10-25 13:15:49.941095"], ["updated_at", "2017-10-25 13:15:49.941095"]]
+  [1m[35m (77.8ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Rustic Granite Shoes"], ["price", 90.02], ["description", "Rerum sit ea quas tenetur quasi temporibus. In ad dignissimos modi adipisci dicta reiciendis. Excepturi ea eos commodi."], ["category_id", 5], ["created_at", "2017-10-25 13:15:50.025294"], ["updated_at", "2017-10-25 13:15:50.025294"]]
+  [1m[36m (92.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Gorgeous Granite Hat"], ["price", 50.79], ["description", "Cumque harum animi id praesentium nam ipsam est. Laudantium dolor non optio ipsum qui illum. Sequi aut similique. Minima libero dolorum rerum odio dicta."], ["category_id", 5], ["created_at", "2017-10-25 13:15:50.124668"], ["updated_at", "2017-10-25 13:15:50.124668"]]
+  [1m[35m (138.3ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Lightweight Aluminum Table"], ["price", 48.88], ["description", "Alias non odit earum natus. Dignissimos magni corrupti aut mollitia ipsam. Perferendis quaerat doloribus quisquam laborum repudiandae accusamus. Magni eveniet doloribus."], ["category_id", 5], ["created_at", "2017-10-25 13:15:50.269131"], ["updated_at", "2017-10-25 13:15:50.269131"]]
+  [1m[36m (99.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Synergistic Aluminum Coat"], ["price", 90.92], ["description", "Velit eaque architecto ratione. Quia est deleniti necessitatibus maxime sit. Voluptatem optio adipisci omnis. Blanditiis voluptas rerum voluptatem ipsum dolorem. Atque assumenda ut dolorem impedit."], ["category_id", 5], ["created_at", "2017-10-25 13:15:50.374896"], ["updated_at", "2017-10-25 13:15:50.374896"]]
+  [1m[35m (76.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Synergistic Wool Shirt"], ["price", 69.78], ["description", "Quaerat sapiente ipsa dolorem maxime quae rem molestiae. Eaque laudantium excepturi in. Eveniet vel exercitationem quis corrupti pariatur iure dolor. Hic cupiditate esse alias. Dolorum ea accusamus ut sit quidem a."], ["category_id", 5], ["created_at", "2017-10-25 13:15:50.457817"], ["updated_at", "2017-10-25 13:15:50.457817"]]
+  [1m[36m (92.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Synergistic Silk Watch"], ["price", 72.21], ["description", "Eaque ullam explicabo. Ea asperiores aut libero non qui voluptas. Quidem vitae sit aspernatur atque voluptas natus sed. Dolorum magnam sit esse ut autem provident."], ["category_id", 5], ["created_at", "2017-10-25 13:15:50.557274"], ["updated_at", "2017-10-25 13:15:50.557274"]]
+  [1m[35m (90.1ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Heavy Duty Paper Lamp"], ["price", 9.31], ["description", "Reiciendis quis suscipit ad voluptatem et. Eveniet sit velit rerum non. Omnis voluptatem ratione aut ex voluptas. Commodi quas earum saepe."], ["category_id", 5], ["created_at", "2017-10-25 13:15:50.654133"], ["updated_at", "2017-10-25 13:15:50.654133"]]
+  [1m[36m (117.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Practical Paper Keyboard"], ["price", 72.15], ["description", "Qui aut id error. Voluptas tempora laboriosam ut magnam. Et sed officia voluptatibus. Occaecati quis aut magnam laboriosam distinctio est qui."], ["category_id", 5], ["created_at", "2017-10-25 13:15:50.779156"], ["updated_at", "2017-10-25 13:15:50.779156"]]
+  [1m[35m (70.4ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Practical Granite Bench"], ["price", 16.33], ["description", "Fuga fugiat animi accusantium eum et odit. Aspernatur modi molestiae labore hic quaerat. Rerum ut eos optio."], ["category_id", 5], ["created_at", "2017-10-25 13:15:50.856666"], ["updated_at", "2017-10-25 13:15:50.856666"]]
+  [1m[36m (102.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Fantastic Bronze Car"], ["price", 20.58], ["description", "Ullam exercitationem ratione laudantium necessitatibus recusandae. Eveniet et magni eos. Quidem dolorem vel ipsam doloribus. Dicta aut ea nisi aspernatur omnis. Iure exercitationem possimus et."], ["category_id", 5], ["created_at", "2017-10-25 13:15:50.967792"], ["updated_at", "2017-10-25 13:15:50.967792"]]
+  [1m[35m (125.5ms)[0m  commit transaction
+  [1m[36m (0.4ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Durable Cotton Gloves"], ["price", 35.91], ["description", "Quam quia nesciunt. Eius illo et dolorem. Explicabo vero nesciunt ipsam quisquam consequuntur est optio."], ["category_id", 5], ["created_at", "2017-10-25 13:15:51.101188"], ["updated_at", "2017-10-25 13:15:51.101188"]]
+  [1m[36m (113.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Ergonomic Plastic Watch"], ["price", 58.51], ["description", "Asperiores ut totam eum. Et tempore blanditiis sint eveniet et vitae. Est ut vel et quis tempora. Dolor cumque ea culpa vitae eos facilis."], ["category_id", 5], ["created_at", "2017-10-25 13:15:51.222800"], ["updated_at", "2017-10-25 13:15:51.222800"]]
+  [1m[35m (69.3ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Mediocre Copper Knife"], ["price", 19.82], ["description", "Consequuntur repudiandae neque. Neque quia voluptates. Illum porro libero ipsam iure. Quam esse sit."], ["category_id", 5], ["created_at", "2017-10-25 13:15:51.300565"], ["updated_at", "2017-10-25 13:15:51.300565"]]
+  [1m[36m (69.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Heavy Duty Silk Shoes"], ["price", 69.18], ["description", "Ut ea nisi corrupti sint sed blanditiis ut. Autem mollitia et. Iusto et dolorum. Facere et reprehenderit voluptas nam."], ["category_id", 5], ["created_at", "2017-10-25 13:15:51.376673"], ["updated_at", "2017-10-25 13:15:51.376673"]]
+  [1m[35m (107.0ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Synergistic Wooden Knife"], ["price", 91.89], ["description", "Est eos odit cumque dolorem est laborum. Vero sit unde temporibus. Maiores itaque temporibus hic voluptate explicabo et. Sed beatae sit tempore illum assumenda consequuntur. Ratione adipisci consectetur qui."], ["category_id", 5], ["created_at", "2017-10-25 13:15:51.491599"], ["updated_at", "2017-10-25 13:15:51.491599"]]
+  [1m[36m (99.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Small Granite Clock"], ["price", 47.88], ["description", "Eos et nulla aut maiores qui perferendis. Dolor dolore perspiciatis. Dolore quasi ratione et voluptatibus optio nostrum recusandae. Sunt harum neque soluta sit architecto molestiae non. Fugiat ut impedit occaecati."], ["category_id", 5], ["created_at", "2017-10-25 13:15:51.600547"], ["updated_at", "2017-10-25 13:15:51.600547"]]
+  [1m[35m (65.1ms)[0m  commit transaction
+  [1m[36m (0.4ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Enormous Wooden Chair"], ["price", 4.39], ["description", "Nulla ut cumque voluptatum. Et sit a facilis eum nobis aut. Voluptatem aperiam suscipit consequatur eaque ipsa autem minima. Iusto iure consectetur et."], ["category_id", 5], ["created_at", "2017-10-25 13:15:51.676083"], ["updated_at", "2017-10-25 13:15:51.676083"]]
+  [1m[36m (95.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Rustic Wooden Car"], ["price", 89.1], ["description", "Qui ut voluptatem cupiditate dolor officia deserunt maxime. Repudiandae ipsam non voluptatibus. Qui quod autem et veritatis expedita. Dolores error non consequuntur. Est velit ipsam dolore voluptate unde."], ["category_id", 5], ["created_at", "2017-10-25 13:15:51.780118"], ["updated_at", "2017-10-25 13:15:51.780118"]]
+  [1m[35m (76.2ms)[0m  commit transaction
+  [1m[36m (0.5ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Incredible Steel Wallet"], ["price", 85.48], ["description", "Laborum voluptas voluptatem ab ut. Voluptate perspiciatis odit dolorem et voluptas. Commodi qui ut eius omnis et hic."], ["category_id", 5], ["created_at", "2017-10-25 13:15:51.865264"], ["updated_at", "2017-10-25 13:15:51.865264"]]
+  [1m[36m (90.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Enormous Concrete Computer"], ["price", 10.64], ["description", "Rerum quisquam voluptatibus. Earum odit quo. Impedit quam non."], ["category_id", 5], ["created_at", "2017-10-25 13:15:51.964190"], ["updated_at", "2017-10-25 13:15:51.964190"]]
+  [1m[35m (58.7ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Incredible Leather Pants"], ["price", 39.17], ["description", "Voluptatem nulla eius. Architecto aut sint perspiciatis sit. Ea fugit voluptas quisquam est vitae voluptatem nostrum."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.031128"], ["updated_at", "2017-10-25 13:15:52.031128"]]
+  [1m[36m (85.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Incredible Paper Gloves"], ["price", 22.04], ["description", "Reiciendis et dolorum sint qui minima. Similique ducimus sequi nihil quidem fugit doloremque sapiente. Commodi vel laudantium rerum dolor."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.124751"], ["updated_at", "2017-10-25 13:15:52.124751"]]
+  [1m[35m (95.8ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Rustic Granite Chair"], ["price", 55.24], ["description", "Nihil est et sed. Esse quo suscipit quasi qui. Quia amet modi odio nemo eaque."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.228156"], ["updated_at", "2017-10-25 13:15:52.228156"]]
+  [1m[36m (68.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Practical Bronze Shoes"], ["price", 93.43], ["description", "Eos ipsum ratione sit fuga nulla odio. Esse fugit ea doloremque quia quasi. Rerum velit dignissimos eum voluptatem. Aut est eum."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.305800"], ["updated_at", "2017-10-25 13:15:52.305800"]]
+  [1m[35m (62.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Incredible Wool Car"], ["price", 11.68], ["description", "Minima magnam et ut voluptate. Sunt sit quis voluptatem excepturi mollitia. Amet consequatur qui ea."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.376801"], ["updated_at", "2017-10-25 13:15:52.376801"]]
+  [1m[36m (131.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (1.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Heavy Duty Leather Bottle"], ["price", 62.89], ["description", "Doloribus qui magni nemo. Tenetur magni quo quia id reprehenderit. Velit pariatur nobis hic."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.515939"], ["updated_at", "2017-10-25 13:15:52.515939"]]
+  [1m[35m (100.4ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Awesome Rubber Coat"], ["price", 82.87], ["description", "Recusandae praesentium rem facere et est laboriosam. Nihil similique libero qui. Quae id voluptatibus aut nobis animi at. Cupiditate et dolorum sint provident voluptatem voluptatem. Excepturi perferendis ut facilis praesentium iste beatae ab."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.624782"], ["updated_at", "2017-10-25 13:15:52.624782"]]
+  [1m[36m (78.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Sleek Leather Plate"], ["price", 77.95], ["description", "Iste voluptates aliquam minima. Error dolor illo. Sit ratione sequi aut et et omnis. Eveniet velit rerum sapiente."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.709813"], ["updated_at", "2017-10-25 13:15:52.709813"]]
+  [1m[35m (80.8ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Ergonomic Wooden Table"], ["price", 61.16], ["description", "Nihil quisquam aliquam facere quo doloremque ea. Rerum omnis et expedita est. Et et placeat unde aut sequi ipsam."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.798184"], ["updated_at", "2017-10-25 13:15:52.798184"]]
+  [1m[36m (111.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Awesome Linen Car"], ["price", 4.02], ["description", "Omnis minima ut quis dolorum. Esse aut velit sint eos error blanditiis pariatur. Rem sit et dicta."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.915827"], ["updated_at", "2017-10-25 13:15:52.915827"]]
+  [1m[35m (68.9ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Enormous Silk Hat"], ["price", 13.88], ["description", "Dolorem ea aliquid perspiciatis dignissimos corrupti. Laborum ut quaerat sunt illo. Dolores dolore architecto voluptate nulla. Iste veritatis suscipit aspernatur. Maiores doloremque sit in nesciunt ab et eum."], ["category_id", 5], ["created_at", "2017-10-25 13:15:52.992449"], ["updated_at", "2017-10-25 13:15:52.992449"]]
+  [1m[36m (96.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Rustic Silk Bag"], ["price", 39.54], ["description", "Modi quam totam voluptatem. Sed nam quam deserunt quae dolores placeat. Cum quisquam quia exercitationem hic. Esse reiciendis dicta et. Accusamus et sunt vitae accusantium totam vel sint."], ["category_id", 5], ["created_at", "2017-10-25 13:15:53.097797"], ["updated_at", "2017-10-25 13:15:53.097797"]]
+  [1m[35m (68.8ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Gorgeous Plastic Chair"], ["price", 7.58], ["description", "Aut ullam sed vero quisquam et. Voluptatum ut beatae. Ab deleniti qui suscipit autem natus et. Accusamus odio aut atque. Molestias et ratione ullam dolor nulla a."], ["category_id", 5], ["created_at", "2017-10-25 13:15:53.174665"], ["updated_at", "2017-10-25 13:15:53.174665"]]
+  [1m[36m (102.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Sleek Plastic Knife"], ["price", 92.13], ["description", "Sunt ipsam labore voluptas qui. Earum est eligendi sit et rerum ullam sint. Rerum quia nostrum vitae voluptas aut. Enim omnis dignissimos reprehenderit unde."], ["category_id", 5], ["created_at", "2017-10-25 13:15:53.285100"], ["updated_at", "2017-10-25 13:15:53.285100"]]
+  [1m[35m (80.8ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Mediocre Wooden Car"], ["price", 36.42], ["description", "Ab veritatis ut. Est velit perspiciatis. Aliquid eum nisi facilis harum libero. Vel omnis laboriosam. Earum dicta eaque necessitatibus quae dolorem."], ["category_id", 5], ["created_at", "2017-10-25 13:15:53.375465"], ["updated_at", "2017-10-25 13:15:53.375465"]]
+  [1m[36m (90.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Awesome Concrete Gloves"], ["price", 49.21], ["description", "Et rerum distinctio sed occaecati. Esse quia neque aperiam quo aut voluptatibus. Ea qui et. Repellendus est deserunt quod doloremque. Officiis sunt nemo fugiat."], ["category_id", 5], ["created_at", "2017-10-25 13:15:53.474774"], ["updated_at", "2017-10-25 13:15:53.474774"]]
+  [1m[35m (61.5ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Rustic Wool Chair"], ["price", 62.6], ["description", "Alias ut doloribus repudiandae. Et ipsa praesentium. Labore magnam laudantium voluptas sed molestiae error tenetur. Commodi et et temporibus nisi sapiente. Ipsa inventore laborum deleniti."], ["category_id", 5], ["created_at", "2017-10-25 13:15:53.544641"], ["updated_at", "2017-10-25 13:15:53.544641"]]
+  [1m[36m (88.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Mediocre Cotton Shoes"], ["price", 15.77], ["description", "Minus in ullam ea ut eligendi tempora occaecati. Qui asperiores omnis cupiditate assumenda reiciendis porro. Autem et autem laboriosam natus aut quos. Non exercitationem voluptates dignissimos maiores."], ["category_id", 5], ["created_at", "2017-10-25 13:15:53.639675"], ["updated_at", "2017-10-25 13:15:53.639675"]]
+  [1m[35m (86.3ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Awesome Silk Pants"], ["price", 1.45], ["description", "Qui vel saepe et rem. Laboriosam qui ut eum qui. Dolores aut neque. Totam at aut sit sint quasi unde possimus. Ipsa explicabo est."], ["category_id", 5], ["created_at", "2017-10-25 13:15:53.734151"], ["updated_at", "2017-10-25 13:15:53.734151"]]
+  [1m[36m (104.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Heavy Duty Concrete Table"], ["price", 56.61], ["description", "Mollitia hic et eveniet. Rem voluptatum est aspernatur sit modi. Veniam officiis vero nisi perferendis aut voluptas. Omnis temporibus velit voluptas nisi ullam et."], ["category_id", 5], ["created_at", "2017-10-25 13:15:53.847716"], ["updated_at", "2017-10-25 13:15:53.847716"]]
+  [1m[35m (97.5ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["title", "Practical Aluminum Computer"], ["price", 82.08], ["description", "Ipsa magni dolorum et assumenda qui ad neque. Perspiciatis ut accusantium vel. Sunt alias veritatis saepe fugit et et rem."], ["category_id", 5], ["created_at", "2017-10-25 13:15:53.953461"], ["updated_at", "2017-10-25 13:15:53.953461"]]
+  [1m[36m (81.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.4ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "products" ("title", "price", "description", "category_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Lightweight Granite Computer"], ["price", 22.26], ["description", "Ratione sint dolor. Reiciendis pariatur et aperiam. Est at adipisci."], ["category_id", 5], ["created_at", "2017-10-25 13:15:54.043908"], ["updated_at", "2017-10-25 13:15:54.043908"]]
+  [1m[35m (61.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'johndoe@example.com' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("name", "email", "encrypted_password", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["name", "John Doe"], ["email", "johndoe@example.com"], ["encrypted_password", "$2a$10$8U5xKH0/Jih7jHOLLbpghen9Wr5cdwZKh5PCz/FlIrTN2AyyxmvNa"], ["created_at", "2017-10-25 13:15:54.224040"], ["updated_at", "2017-10-25 13:15:54.224040"]]
+  [1m[35m (90.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.1ms)[0m  SELECT  1 AS one FROM "users" WHERE "users"."email" = 'admin@example.com' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
